@@ -9,9 +9,9 @@ app = Flask(__name__)
 # Load trained model once when server starts
 try:
     model = joblib.load("model.pkl")
-    print("✅ Model loaded successfully")
+    print("Model loaded successfully")
 except Exception as e:
-    print("❌ Error loading model:", e)
+    print(" Error loading model:", e)
 
 
 # Home route (check API running)
