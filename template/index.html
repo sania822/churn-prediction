@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Churn Predictor</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Customer Churn Prediction</h1>
+
+    <form id="predictForm">
+
+        <input type="text" placeholder="Account Length" required>
+        <input type="text" placeholder="Total Day Minutes" required>
+        <input type="text" placeholder="Customer Service Calls" required>
+        <input type="text" placeholder="International Plan (0 or 1)" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <h2 id="result"></h2>
+</div>
+
+<script>
+document.getElementById("predictForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    let inputs = document.querySelectorAll("input");
+    let features = [];
+
+    inputs.forEach(input => {
+        features.push(Number(input.value));
+    });
+
+    let response = await fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({features: features})
+    });
+
+    let data = await response.json();
+
+    document.getElementById("result").innerText =
+        "Prediction: " + data.prediction +
+        " | Churn Probability: " + data.churn_probability;
+});
+</script>
+
+</body>
+</html>
+
+
+
